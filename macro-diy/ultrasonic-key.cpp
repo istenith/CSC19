@@ -28,47 +28,21 @@ void UltrasonicKey::setThreshold(int threshold_distance)
     _threshold_distance = threshold_distance;
 }
 
-void UltrasonicKey::setKeyCode(int key_code) { _key_code = key_code; }
-
 int UltrasonicKey::getDistance()
 {
     // Clear residual signal
     digitalWrite(_trigger_pin, LOW);
     delay(2);
 
-    // Send ultrasonic signal
+    // Send ultrasonic signal 8 shots @ 40KHz
     digitalWrite(_trigger_pin, HIGH);
     delay(10);
 
     // Get duration
     float duration = pulseIn(_echo_pin, HIGH);
 
-    // speed of sound ~0.34cm/ms
+    // speed of sound ~0.34cm/ms return taken into account
     return duration * 0.34 / 2;
 }
 
 inline bool UltrasonicKey::isPressed() { return getDistance() <= _threshold_distance; }
-
-inline bool UltrasonicKey::hasKeyStroke()
-{
-    // returns true only once initially while key is pressed
-    if (isPressed()) {
-        return !_was_pressed;
-    } else {
-        _was_pressed = false;
-    }
-}
-
-inline bool UltrasonicKey::processKeyStroke(int key_code)
-{
-    // Writes directly
-
-    if (key_code == -1) {
-        key_code = _KEY_CODE;
-    }
-
-    if (hasKeyStroke()) {
-        Keyboard.write(key_code);
-    }
-}
-

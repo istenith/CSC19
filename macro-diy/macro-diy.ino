@@ -1,14 +1,12 @@
+#include "push-key.h"
 #include "ultrasonic-key.h"
 
 UltrasonicKey us_button(5, 6, 7);
+PushKey pk_button(2, 0x52);
 
-void setup()
-{
-}
+void setup() {}
 
 void loop()
 {
-  if(us_button.hasKeyStroke()) {
-    Serial.println("Alpha Male");
-  }
+	us_button.processKeyStroke();
 }

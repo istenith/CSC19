@@ -14,4 +14,3 @@ PushKey::PushKey(const int read_pin, const int key_code)
 void PushKey::setPins(const int read_pin) { _read_pin = read_pin; }
 
 bool PushKey::isPressed() { return digitalRead(_read_pin); }
-
